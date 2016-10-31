@@ -1,5 +1,13 @@
+plugins {
+  id "com.jfrog.bintray" version "1.7.2"
+}
+
 apply plugin: 'java-gradle-plugin'
 apply plugin: 'jacoco'
+apply plugin: 'maven-publish'
+
+group = 'de.ito.gradle.plugin'
+version = '0.1.0'
 
 repositories {
   jcenter()
@@ -31,5 +39,51 @@ jacocoTestReport {
   }
 }
 
-group = 'de.ito.gradle.plugin'
-version = '0.1.0'
+task sourcesJar(type: Jar, dependsOn: classes) {
+  classifier = 'sources'
+  from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+  classifier = 'javadoc'
+  from javadoc.destinationDir
+}
+
+artifacts {
+  archives sourcesJar, javadocJar
+}
+
+publishing {
+  publications {
+    mavenJava(MavenPublication) {
+      from components.java
+      artifact sourcesJar
+      artifact javadocJar
+      groupId project.group
+      artifactId 'android-string-extractor'
+      version project.version
+    }
+  }
+}
+
+bintray {
+  user = project.hasProperty('bintray_user') ? project.bintray_user : ''
+  key = project.hasProperty('bintray_key') ? project.bintray_key : ''
+
+  publications = ['mavenJava']
+  dryRun  = false
+  publish = false
+  pkg {
+    repo = 'maven'
+    name = 'de.ito.gradle.plugin:android-string-extractor'
+    desc = 'Gradle plugin which automatically extracts hardcoded strings from Android layouts.'
+    licenses = ['MIT']
+    vcsUrl = 'https://github.com/it-objects/android-string-extractor-plugin.git'
+    labels = ['Android', 'Gradle', 'plugin', 'string', 'extraction']
+    publicDownloadNumbers = false
+    version {
+      name = project.version
+      desc = ''
+    }
+  }
+}
