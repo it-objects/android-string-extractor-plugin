@@ -1,0 +1,18 @@
+language: java
+
+jdk:
+- oraclejdk7
+
+after_success:
+- ./gradlew jacocoTestReport coveralls
+
+branches:
+  except:
+  - gh-pages
+
+notifications:
+  email: false
+
+cache:
+  directories:
+  - $HOME/.gradle
