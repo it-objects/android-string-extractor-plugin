@@ -1,4 +1,4 @@
-# android-string-extractor-plugin
+# android-string-extractor-plugin [![Build Status](https://travis-ci.org/it-objects/android-string-extractor-plugin.svg?branch=travis-coveralls)](https://travis-ci.org/it-objects/android-string-extractor-plugin) [![Coverage Status](https://coveralls.io/repos/github/it-objects/android-string-extractor-plugin/badge.svg?branch=travis-coveralls)](https://coveralls.io/github/it-objects/android-string-extractor-plugin?branch=travis-coveralls)
 Gradle plugin which automatically extracts hardcoded strings from Android layouts.
 
 The plugin scans all your flavors and layouts. It automatically extracts detected hardcoded values. Occurrences are replaced with generated references:
