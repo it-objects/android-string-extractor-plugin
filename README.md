@@ -17,7 +17,7 @@ The plugin scans all your flavors and layouts. It automatically extracts detecte
   />
 ```
 
-##Usage
+## Usage
 ```groovy
 buildscript {
   repositories {
@@ -36,6 +36,6 @@ apply plugin: 'android-string-extractor'
 $ ./gradlew extractStringsFromLayouts
 ```
 
-##Contributing
+## Contributing
 Contributing to this project is appreciated.
 Please check the [contribution guidelines](/CONTRIBUTING.md) for more information.
