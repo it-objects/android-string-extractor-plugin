@@ -52,7 +52,6 @@ class StringValuesReader {
     for (int i = 0; i < strings.getLength(); i++) {
       try {
         handleNode(strings.item(i), values);
-        throw new RuntimeException ("test");
       }catch(RuntimeException e){
           logNodeHandlingException(strings.item(i), e);
       }
@@ -62,9 +61,9 @@ class StringValuesReader {
 
     private void logNodeHandlingException(Node node, RuntimeException e)  {
         try {
-            logger.log(Level.SEVERE,"an unexpected error occurred while reading string_layouts.\n entry '"+convertNodeToText(node)+"' will not be considered",e);
+            logger.log(Level.SEVERE,"an unexpected error occurred while reading string_layouts.\n entry '"+convertNodeToText(node)+"' will not be considered");
         } catch (TransformerException e1) {
-            logger.log(Level.SEVERE,"an unexpected error occurred while reading string_layouts.\n entry will not be considered",e);
+            logger.log(Level.SEVERE,"an unexpected error occurred while reading string_layouts.\n entry will not be considered");
         }
     }
 
