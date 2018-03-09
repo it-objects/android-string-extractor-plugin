@@ -56,14 +56,6 @@ public class StringValuesReaderTest {
     assertThat(actual, equalTo(expected));
   }
 
-  private File createFileStructure() throws IOException {
-    File flavorPath = new File(folder.getRoot(), "flavor/");
-    File stringValuesFile = new File(flavorPath, "res/values/string_layouts.xml");
-    stringValuesFile.mkdirs();
-    stringValuesFile.createNewFile();
-    return flavorPath;
-  }
-
   static StringValues createDummyStringValues() {
     Map<String, String> values = new LinkedHashMap<>();
 
@@ -93,6 +85,14 @@ public class StringValuesReaderTest {
     string.setAttributeNode(name);
     string.appendChild(value);
     return string;
+  }
+
+  private File createFileStructure() throws IOException {
+    File flavorPath = new File(folder.getRoot(), "flavor/");
+    File stringValuesFile = new File(flavorPath, "res/values/string_layouts.xml");
+    stringValuesFile.mkdirs();
+    stringValuesFile.createNewFile();
+    return flavorPath;
   }
 
   static Document createDummyDocumentWithInvalidNode() throws ParserConfigurationException {

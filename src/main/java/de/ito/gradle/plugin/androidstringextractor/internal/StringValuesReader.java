@@ -59,6 +59,14 @@ class StringValuesReader {
     return values;
   }
 
+    private void handleNode(Node stringNode, Map<String, String> values) {
+        Node stringNodeNameAttribute = stringNode.getAttributes().getNamedItem("name");
+        Node stringNodeValueAttribute = stringNode.getFirstChild();
+        if (stringNodeNameAttribute != null && stringNodeValueAttribute != null) {
+            values.put(stringNodeNameAttribute.getNodeValue(), stringNodeValueAttribute.getNodeValue());
+        }
+    }
+
     private void logNodeHandlingException(Node node, RuntimeException e)  {
         try {
             logger.log(Level.SEVERE,"an unexpected error occurred while reading string_layouts.\n entry '"+convertNodeToText(node)+"' will not be considered");
@@ -74,12 +82,4 @@ class StringValuesReader {
         t.transform(new DOMSource(node), new StreamResult(sw));
         return sw.toString();
     }
-
-    private void handleNode(Node stringNode, Map<String, String> values) {
-    Node stringNodeNameAttribute = stringNode.getAttributes().getNamedItem("name");
-    Node stringNodeValueAttribute = stringNode.getFirstChild();
-    if (stringNodeNameAttribute != null && stringNodeValueAttribute != null) {
-      values.put(stringNodeNameAttribute.getNodeValue(), stringNodeValueAttribute.getNodeValue());
-    }
-  }
 }
