@@ -1,6 +1,7 @@
 package de.ito.gradle.plugin.androidstringextractor.internal;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.xml.parsers.ParserConfigurationException;
@@ -21,7 +22,7 @@ import static org.mockito.Mockito.when;
 
 public class StringValuesReaderTest {
   @Rule public TemporaryFolder folder = new TemporaryFolder();
-  
+
   private StringValuesReader stringValuesReader;
   private XmlFileReader xmlFileReader;
 
@@ -31,15 +32,24 @@ public class StringValuesReaderTest {
     stringValuesReader = new StringValuesReader(xmlFileReader);
   }
 
-  @Test
-  public void when_readStringValuesFromFile_should_returnStringValues() throws Exception {
+  @Test public void when_readStringValuesFromFile_should_returnStringValues() throws Exception {
     StringValues expected = createDummyStringValues();
     Document dummyStringValues = createDummyDocument();
     when(xmlFileReader.read(any(File.class))).thenReturn(dummyStringValues);
-    File flavorPath = new File(folder.getRoot(), "flavor/");
-    File stringValuesFile = new File(flavorPath, "res/values/string_layouts.xml");
-    stringValuesFile.mkdirs();
-    stringValuesFile.createNewFile();
+    File flavorPath = createFileStructure();
+
+    StringValues actual = stringValuesReader.read(flavorPath);
+
+    assertThat(actual, equalTo(expected));
+  }
+
+  @Test
+  public void given_invalidFormatNode_when_readStringValuesFromFile_should_returnStringValues_andIgnoreInvalidNode()
+          throws Exception {
+    StringValues expected = createDummyStringValues();
+    Document dummyStringValues = createDummyDocumentWithInvalidNode();
+    when(xmlFileReader.read(any(File.class))).thenReturn(dummyStringValues);
+    File flavorPath = createFileStructure();
 
     StringValues actual = stringValuesReader.read(flavorPath);
 
@@ -58,6 +68,15 @@ public class StringValuesReaderTest {
     Document document = Util.createEmptyDocument();
 
     Element resources = document.createElement("resources");
+    Element string = createStringNodeEntry(document);
+
+    resources.appendChild(string);
+    document.appendChild(resources);
+
+    return document;
+  }
+
+  private static Element createStringNodeEntry(Document document) {
     Element string = document.createElement("string");
     Attr name = document.createAttribute("name");
     name.setValue("name");
@@ -65,10 +84,31 @@ public class StringValuesReaderTest {
 
     string.setAttributeNode(name);
     string.appendChild(value);
+    return string;
+  }
 
-    resources.appendChild(string);
-    document.appendChild(resources);
+  private File createFileStructure() throws IOException {
+    File flavorPath = new File(folder.getRoot(), "flavor/");
+    File stringValuesFile = new File(flavorPath, "res/values/string_layouts.xml");
+    stringValuesFile.mkdirs();
+    stringValuesFile.createNewFile();
+    return flavorPath;
+  }
+
+  static Document createDummyDocumentWithInvalidNode() throws ParserConfigurationException {
+    Document document = createDummyDocument();
+
+    document.getElementsByTagName("resources").item(0).appendChild(createStringNodeEntryWithoutValue(document));
 
     return document;
+  }
+
+  private static Element createStringNodeEntryWithoutValue(Document document) {
+    Element string = document.createElement("string");
+    Attr name = document.createAttribute("name");
+    name.setValue("withoutValue");
+
+    string.setAttributeNode(name);
+    return string;
   }
 }
