@@ -9,6 +9,6 @@ public class AndroidStringExtractorPlugin implements Plugin<Project> {
 
   @Override
   public void apply(Project target) {
-    target.getTasks().create(TASK_NAME, AndroidStringExtractorTask.class);
+      target.getTasks().create(TASK_NAME, AndroidStringExtractorTask.class);
   }
 }
