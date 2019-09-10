@@ -8,28 +8,29 @@ import org.gradle.api.Project;
  */
 class AndroidStringExtractorPluginExtension {
 
-    public AndroidStringExtractorPluginExtension() {}
+  String targetFolder;
 
-    String targetFolder;
+  public AndroidStringExtractorPluginExtension() {
+  }
 
-    public void setTargetFolder(String targetFolder) {
-        this.targetFolder = targetFolder;
-    }
+  public String getTargetFolder() {
+    return targetFolder;
+  }
 
-    public String getTargetFolder() {
-        return targetFolder;
-    }
+  public void setTargetFolder(String targetFolder) {
+    this.targetFolder = targetFolder;
+  }
 }
 
 public class AndroidStringExtractorPlugin implements Plugin<Project> {
 
-    static final String TASK_NAME = "extractStringsFromLayouts";
+  static final String TASK_NAME = "extractStringsFromLayouts";
 
-    @Override
-    public void apply(Project target) {
-        AndroidStringExtractorPluginExtension extractionProperties =
-                target.getExtensions().create("stringExtractionProperties", AndroidStringExtractorPluginExtension.class);
-        AndroidStringExtractorTask androidStringExtractorTask = target.getTasks().create(TASK_NAME, AndroidStringExtractorTask.class);
-        androidStringExtractorTask.doFirst(task -> ((AndroidStringExtractorTask) task).setOtherProjectDir(extractionProperties.targetFolder));
-    }
+  @Override
+  public void apply(Project target) {
+    AndroidStringExtractorPluginExtension extractionProperties =
+        target.getExtensions().create("stringExtractionProperties", AndroidStringExtractorPluginExtension.class);
+    AndroidStringExtractorTask androidStringExtractorTask = target.getTasks().create(TASK_NAME, AndroidStringExtractorTask.class);
+    androidStringExtractorTask.doFirst(task -> ((AndroidStringExtractorTask) task).setOtherProjectDir(extractionProperties.targetFolder));
+  }
 }

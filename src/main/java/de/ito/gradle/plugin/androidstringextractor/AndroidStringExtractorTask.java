@@ -7,21 +7,21 @@ import org.gradle.api.tasks.TaskAction;
 
 public class AndroidStringExtractorTask extends DefaultTask {
 
-    private final LayoutStringExtractor layoutStringExtractor;
+  private final LayoutStringExtractor layoutStringExtractor;
 
-    private String otherProjectDir;
+  private String otherProjectDir;
 
-    public AndroidStringExtractorTask() {
-        layoutStringExtractor = new LayoutStringExtractor(new AndroidProjectFactory());
-    }
+  public AndroidStringExtractorTask() {
+    layoutStringExtractor = new LayoutStringExtractor(new AndroidProjectFactory());
+  }
 
-    @TaskAction
-    public void extractStringsFromLayouts() throws Exception {
-        String projectPath = otherProjectDir == null ? getProject().getProjectDir().getPath() : otherProjectDir;
-        layoutStringExtractor.extract(projectPath);
-    }
+  @TaskAction
+  public void extractStringsFromLayouts() throws Exception {
+    String projectPath = otherProjectDir == null ? getProject().getProjectDir().getPath() : otherProjectDir;
+    layoutStringExtractor.extract(projectPath);
+  }
 
-    void setOtherProjectDir(String otherProjectDir) {
-        this.otherProjectDir = otherProjectDir;
-    }
+  void setOtherProjectDir(String otherProjectDir) {
+    this.otherProjectDir = otherProjectDir;
+  }
 }
