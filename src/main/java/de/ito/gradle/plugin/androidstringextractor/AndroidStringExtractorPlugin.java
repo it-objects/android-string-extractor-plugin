@@ -29,8 +29,12 @@ public class AndroidStringExtractorPlugin implements Plugin<Project> {
   @Override
   public void apply(Project target) {
     AndroidStringExtractorPluginExtension extractionProperties =
-        target.getExtensions().create("stringExtractionProperties", AndroidStringExtractorPluginExtension.class);
-    AndroidStringExtractorTask androidStringExtractorTask = target.getTasks().create(TASK_NAME, AndroidStringExtractorTask.class);
-    androidStringExtractorTask.doFirst(task -> ((AndroidStringExtractorTask) task).setOtherProjectDir(extractionProperties.targetFolder));
+        target.getExtensions()
+            .create("stringExtractionProperties", AndroidStringExtractorPluginExtension.class);
+    AndroidStringExtractorTask androidStringExtractorTask =
+        target.getTasks().create(TASK_NAME, AndroidStringExtractorTask.class);
+    androidStringExtractorTask.doFirst(
+        task -> ((AndroidStringExtractorTask) task).setOtherProjectDir(
+            extractionProperties.targetFolder));
   }
 }
