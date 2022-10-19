@@ -1,3 +1,5 @@
+** THIS REPOSITORY IS OUTDATED SO THAT WE DECIDED TO ARCHIVE IT **
+
 # android-string-extractor-plugin [![Build Status](https://travis-ci.org/it-objects/android-string-extractor-plugin.svg?branch=travis-coveralls)](https://travis-ci.org/it-objects/android-string-extractor-plugin) [![Coverage Status](https://coveralls.io/repos/github/it-objects/android-string-extractor-plugin/badge.svg?branch=travis-coveralls)](https://coveralls.io/github/it-objects/android-string-extractor-plugin?branch=travis-coveralls) [![Download](https://api.bintray.com/packages/it-objects/maven/de.ito.gradle.plugin%3Aandroid-string-extractor/images/download.svg) ](https://bintray.com/it-objects/maven/de.ito.gradle.plugin%3Aandroid-string-extractor/_latestVersion)
 Gradle plugin which automatically extracts hardcoded strings from Android layouts.
 
