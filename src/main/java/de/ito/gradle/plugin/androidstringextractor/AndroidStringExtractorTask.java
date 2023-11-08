@@ -9,13 +9,19 @@ public class AndroidStringExtractorTask extends DefaultTask {
 
   private final LayoutStringExtractor layoutStringExtractor;
 
+  private String otherProjectDir;
+
   public AndroidStringExtractorTask() {
     layoutStringExtractor = new LayoutStringExtractor(new AndroidProjectFactory());
   }
 
   @TaskAction
   public void extractStringsFromLayouts() throws Exception {
-    String projectPath = getProject().getProjectDir().getPath();
+    String projectPath = otherProjectDir == null ? getProject().getProjectDir().getPath() : otherProjectDir;
     layoutStringExtractor.extract(projectPath);
+  }
+
+  void setOtherProjectDir(String otherProjectDir) {
+    this.otherProjectDir = otherProjectDir;
   }
 }
